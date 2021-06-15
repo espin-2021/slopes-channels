@@ -115,34 +115,3 @@ imshow_grid(mg, 'topographic__elevation')
     https://dx.doi.org/10.5194/gmd-10-4577-2017
 
  """
-
-#%%
-"""Run step with CHILD-like solver that adjusts time steps to prevent slope
- flattening."""
-
-from landlab import RasterModelGrid
-from landlab.components import FlowAccumulator
-import numpy as np
-
-rg = RasterModelGrid((3, 4))
-z = rg.add_zeros('topographic__elevation', at='node')
-z[:] = 0.1 * rg.x_of_node
-H = rg.add_zeros('soil__depth', at='node')
-H += 0.1
-br = rg.add_zeros('bedrock__elevation', at='node')
-br[:] = z - H
-
-fa = FlowAccumulator(rg, flow_director='FlowDirectorSteepest')
-fa.run_one_step()
-sp = Space(rg, K_sed=1.0, K_br=0.1,
-           F_f=0.5, phi=0.0, H_star=1., v_s=1.0,
-           m_sp=0.5, n_sp = 1.0, sp_crit_sed=0,
-           sp_crit_br=0, solver='adaptive')
-sp.run_one_step(dt=10.0)
-
-np.round(sp.Es[5:7], 4)
-array([ 0.0029,  0.0074])
-np.round(sp.Er[5:7], 4)
-array([ 0.0032,  0.0085])
-np.round(H[5:7], 3)
-array([ 0.088,  0.078])
