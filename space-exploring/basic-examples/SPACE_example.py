@@ -44,12 +44,19 @@ sp_crit_sed=0
 sp_crit_br=0
 solver='basic'
 
-#%% Set up raster model grid
-
+#%% Set up grid size and spacing
 num_rows = 30
 num_cols = 30
 dx = 100.
 
+# #%% Set up time step imposed by CFL and von Neumann criteria
+# dt_vN = dx*dx/(4.01*K_dif)  # von Neumann criterion for diffusion equation
+# C_max = 1
+# area = (num_cols*dx)*(num_rows*dx)
+# dt_CFL = C_max*(dx/(K_sp*(area**m_sp)))   # CFL criterion for strea power equation
+# dt = round(min(dt_vN,dt_CFL))
+
+#%% Set up raster model grid
 np.random.seed(seed = 5000)
 
 mg = RasterModelGrid((num_rows, num_cols), xy_spacing=dx)
