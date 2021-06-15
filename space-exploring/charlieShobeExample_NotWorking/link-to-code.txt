@@ -1,1 +1,4 @@
+The charlie shobe 2017 paper on space has example code at the repository
 https://figshare.com/articles/dataset/pub_shobe_etal_GMD/5193478
+
+Unfortunately this code does not work. Some elements of it are depreciated. But there is some info there. Incl a "space user manual" document.
