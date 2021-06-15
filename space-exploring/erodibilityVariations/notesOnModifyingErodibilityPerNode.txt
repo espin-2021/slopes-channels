@@ -1,0 +1,76 @@
+cd /home/kp/anaconda3/envs/espin/lib/python3.9/site-packages/landlab/components/space/
+
+This is the path to the code on my local machine.
+The erodibillity is set by the function
+
+    @K_sed.setter
+    def K_sed(self, new_val):
+        self._K_sed = return_array_at_node(self._grid, new_val)
+
+    def _calc_erosion_rates(self):
+        """Calculate erosion rates."""
+        # if sp_crits are zero, then this colapses to correct all the time.
+        if self._n_sp == 1.0:
+            S_to_the_n = self._slope
+        else:
+            S_to_the_n = np.power(self._slope, self._n_sp)
+        omega_sed = self._K_sed * self._Q_to_the_m * S_to_the_n
+        omega_br = self._K_br * self._Q_to_the_m * S_to_the_n
+
+        omega_sed_over_sp_crit = np.divide(
+            omega_sed,
+            self._sp_crit_sed,
+            out=np.zeros_like(omega_sed),
+            where=self._sp_crit_sed != 0,
+        )
+
+        omega_br_over_sp_crit = np.divide(
+            omega_br,
+            self._sp_crit_br,
+            out=np.zeros_like(omega_br),
+            where=self._sp_crit_br != 0,
+        )
+
+        self._sed_erosion_term = omega_sed - self._sp_crit_sed * (
+            1.0 - np.exp(-omega_sed_over_sp_crit)
+        ) / (
+            1 - self._phi
+        )  # convert from a volume to a mass flux.
+
+        self._br_erosion_term = omega_br - self._sp_crit_br * (
+            1.0 - np.exp(-omega_br_over_sp_crit)
+        )
+
+        H_over_Hstar = self._soil__depth / self._H_star
+        self._Es = self._sed_erosion_term * (1.0 - np.exp(-H_over_Hstar))
+
+        self._Er = self._br_erosion_term * np.exp(-H_over_Hstar)
+
+
+
+this involves
+from landlab.utils.return_array import return_array_at_node
+
+and return_array_at_node is found at
+~/anaconda3/envs/espin/lib/python3.9/site-packages/landlab/utils/return_array.py
+given by
+
+@use_field_name_array_or_value("node")
+def return_array_at_node(grid, value):
+    """Function to return an array stored at node or of shape `(n_nodes,)`.
+
+    This function exists to take advantange of the use_field_name_array_or_value
+    decorator which permits providing the surface as a field name or array.
+
+    Parameters
+    ----------
+    grid : ModelGrid
+    value : field name, ndarray of shape `(n_nodes, )`, or single value.
+
+    Returns
+    -------
+    array : ndarray of shape `(n_nodes, )`
+    """
+    return value
+
+So it just returns the second argument? 
