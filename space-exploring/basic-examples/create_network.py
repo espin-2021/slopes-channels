@@ -6,10 +6,11 @@ Created on Tue Feb  2 17:50:09 2021
 
 import numpy as np
 
-from ..components import ChannelProfiler, FlowAccumulator, DepressionFinderAndRouter
-from ..graph import NetworkGraph
-from .raster import RasterModelGrid
-from .network import NetworkModelGrid
+# modified for path
+from landlab.components import ChannelProfiler, FlowAccumulator, DepressionFinderAndRouter
+from landlab.graph import NetworkGraph
+from landlab.grid.raster import RasterModelGrid
+from landlab.grid.network import NetworkModelGrid
 
 
 def create_network_from_raster(
@@ -220,7 +221,8 @@ def create_network_from_raster(
 
             # Assign node spacing as n_channel_widths or a constant value from
             # input params
-            if method is 'variable':
+            #if method is 'variable':
+            if method == 'variable':
                 # calculate drainage area contributing to this node
                 da_node = rmg.at_node['drainage_area'][rmg_node]
                 # relate drainage area to river width (convert area to km, width in m)
@@ -228,7 +230,8 @@ def create_network_from_raster(
                 w_channel = (a * da_node / (1000 ** 2)) ** b
                 # calculate upstream node spacing, n_widths_defines stable node spacing
                 node_spacing = n_widths * w_channel
-            if method is 'constant':
+            #if method is 'constant':
+            if method == 'constant':
                 node_spacing = d_node_spacing
 
             # if stable node spacing is greater than raster grid resolution
