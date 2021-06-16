@@ -1,0 +1,13 @@
+My personal notes
+
+Shelby's slack post:
+NST folks: if you are interested in creating a NetworkModelGrid from a RasterModelGrid, 
+here is some 'in-the-works' code to do so. 
+
+https://github.com/shelbyahrendt/landlab/blob/shelby_dev/landlab/grid/create_network.py 
+
+Unfortunately, it's not officially part of landlab, but I made a quick tutorial on how to do this with the Hugo basin topography 
+if you are interested in using that as a test basin: 
+
+https://github.com/shelbyahrendt/landlab/blob/shelby_dev/notebooks/tutorials/network_sediment_transporter/create_networkgrid_from_rastergrid.ipynb
+

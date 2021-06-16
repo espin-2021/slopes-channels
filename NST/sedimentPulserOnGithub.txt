@@ -1,0 +1,4 @@
+here you find the sediment pulser files on Github:
+
+https://github.com/keckje/landlab/tree/LandlabHydrologyAndSediment/landlab/utils/parcels
+
