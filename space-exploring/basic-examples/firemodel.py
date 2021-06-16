@@ -1,5 +1,7 @@
 # here are the new functionalities to implement randomly burned areas....
 
+import numpy as np
+
 class ErodibilityStepper:
     """
     This class is initialized by a decay_constant, describing the rate at which
@@ -20,7 +22,7 @@ class ErodibilityStepper:
         value Ksed_0
         """
         # solve the DE with simple Euler method
-        dK_sed =  -(space.K_sed-K_sed0)*dt/self.decay_time # erodibility decay in time
+        dK_sed =  -(space.K_sed-self.K_sed0)*dt/self.decay_time # erodibility decay in time
         space.K_sed += dK_sed # modify the erodibility in place
         
 class Burner:
