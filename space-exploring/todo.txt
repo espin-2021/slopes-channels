@@ -1,0 +1,4 @@
+1. (nishani/laurent) how to save
+2. (kevin) learn to plot with two colormaps
+3. (nishani) make flux timeseries from saved files
+4. (laurent) make longitudinal profile along the network
