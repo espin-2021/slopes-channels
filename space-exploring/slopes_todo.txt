@@ -1,0 +1,6 @@
+tune parameters
+figure out background erodibility
+saving 
+visualization
+network
+
